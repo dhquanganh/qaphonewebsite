@@ -1,0 +1,60 @@
+<div class="login-page">
+  <div class="login-inner">
+    <div class="login-breadcrumbs">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <span class="current">Đăng Nhập</span>
+    </div>
+
+    <h1 class="login-title">Đăng Nhập</h1>
+
+    <div class="login-cards">
+      <div class="login-card login-card--registered">
+        <h3>Đăng Nhập</h3>
+        <form id="login-form" class="login-form">
+          <label for="login-email">Email <span class="req">*</span></label>
+          <input id="login-email" type="email" placeholder="Your Email" required />
+
+          <label for="login-password">Password <span class="req">*</span></label>
+          <input id="login-password" type="password" placeholder="Your Password" required />
+
+          <div class="login-actions">
+            <button class="login-btn login-btn--blue" type="submit">Sign In</button>
+            <a class="forgot-link" href="#">Forgot Your Password?</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="login-card login-card--new">
+        <h3>Người Dùng Mới?</h3>
+        <p>Tạo Tài Khoản Tại Đây:</p>
+
+        <a class="login-btn login-btn--blue login-btn--full" href="/auth/register">
+          Tạo Tài Khoản
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-bar login-features">
+    <div class="features-inner">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+        <h4>Product Support</h4>
+        <p>Up to 3 years on-site warranty, available for your peace of mind.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-user-circle"></i></div>
+        <h4>Personal Account</h4>
+        <p>With 5% discount, free delivery and a dedicated support specialist.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-tag"></i></div>
+        <h4>Amazing Savings</h4>
+        <p>Up to 70% off new Products, you can be sure of the best price.</p>
+      </div>
+    </div>
+  </div>
+  <script src="/js/login.js" defer></script>
+</div>
+

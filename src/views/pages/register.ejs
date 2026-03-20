@@ -1,0 +1,64 @@
+<div class="login-page">
+  <div class="login-inner">
+    <div class="login-breadcrumbs">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <span class="current">Đăng Ký</span>
+    </div>
+
+    <h1 class="login-title">Đăng Ký</h1>
+
+    <div class="login-cards">
+      <div class="login-card login-card--registered">
+        <h3>Đăng Ký Thành Viên</h3>
+
+        <form action="/auth/register-submit" id="register-form" method="POST" class="login-form">
+          <label for="login-email">Email <span class="req">*</span></label>
+          <input name="email" id="login-email" type="email" placeholder="Your Email" required />
+
+          <label for="login-username">Tên Đăng Nhập<span class="req">*</span></label>
+          <input name="username" id="login-email" type="text" placeholder="Your Username" required />
+
+          <label for="login-password">Password <span class="req">*</span></label>
+          <input name="password" id="login-password" type="password" placeholder="Your Password" required />
+
+          <div class="login-actions">
+            <button class="login-btn login-btn--blue" type="submit">Đăng Ký</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="login-card login-card--new">
+        <h3>Đã Có Tài Khoản?</h3>
+        <p>Đăng Nhập Tại Đây:</p>
+
+        <a class="login-btn login-btn--blue login-btn--full" href="/auth/login">
+          Đăng Nhập
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-bar login-features">
+    <div class="features-inner">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-headset"></i></div>
+        <h4>Product Support</h4>
+        <p>Up to 3 years on-site warranty, available for your peace of mind.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-user-circle"></i></div>
+        <h4>Personal Account</h4>
+        <p>With 5% discount, free delivery and a dedicated support specialist.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-tag"></i></div>
+        <h4>Amazing Savings</h4>
+        <p>Up to 70% off new Products, you can be sure of the best price.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/login.js" defer></script>
+</div>
+
