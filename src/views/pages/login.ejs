@@ -11,15 +11,15 @@
     <div class="login-cards">
       <div class="login-card login-card--registered">
         <h3>Đăng Nhập</h3>
-        <form id="login-form" class="login-form">
+        <form action="/auth/login-submit" method="POST" class="login-form">
           <label for="login-email">Email <span class="req">*</span></label>
-          <input id="login-email" type="email" placeholder="Your Email" required />
+          <input name="email" id="login-email" type="email" placeholder="Your Email" required />
 
           <label for="login-password">Password <span class="req">*</span></label>
-          <input id="login-password" type="password" placeholder="Your Password" required />
+          <input name="password" id="login-password" type="password" placeholder="Your Password" required />
 
           <div class="login-actions">
-            <button class="login-btn login-btn--blue" type="submit">Sign In</button>
+            <button class="login-btn login-btn--blue" type="submit">Đăng Nhập</button>
             <a class="forgot-link" href="#">Forgot Your Password?</a>
           </div>
         </form>
@@ -57,4 +57,3 @@
   </div>
   <script src="/js/login.js" defer></script>
 </div>
-

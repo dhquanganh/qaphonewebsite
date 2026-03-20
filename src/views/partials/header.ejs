@@ -20,11 +20,24 @@
     <div class="header-actions">
       <a href="#"><i class="fas fa-search"></i></a>
       <a href="#" style="position:relative"><i class="fas fa-shopping-cart"></i><span class="badge">0</span></a>
-      <a href="#"><i class="fas fa-user"></i></a>
+
+      <% if (user) { %>
+        <!-- User đã đăng nhập -->
+        <div class="user-menu">
+          <span><i class="fas fa-user"></i>
+            Xin Chào <%= user.username %>!
+          </span>
+          <button id="logout-btn"
+            style="margin-left: 10px; padding: 5px 10px; background: #e00; color: white; border: none; border-radius: 3px; cursor: pointer;">Logout</button>
+        </div>
+        <% } else { %>
+          <!-- User chưa đăng nhập -->
+          <a href="/auth/login"><i class="fas fa-user"></i></a>
+          <% } %>
     </div>
   </div>
 </header>
-
+<script src="/js/auth.js"></script>
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobile-nav">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close Menu"><i class="fas fa-times"></i></button>

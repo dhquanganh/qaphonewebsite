@@ -4,9 +4,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
 const expressLayouts = require('express-ejs-layouts');
+const cookieParser = require('cookie-parser');
 
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
+const setUserMiddleware = require('./middleware/setUserMiddleware');
 const routes = require('./routes');
 dotenv.config();
 
@@ -23,13 +25,11 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(logger);
+app.use(setUserMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
 
 // API routes
 routes(app);

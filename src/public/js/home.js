@@ -18,10 +18,10 @@ function genProduct(i, isLaptop = false, isMonitor = false) {
   const stockLabels = ['In Stock', 'Low Stock', 'Out of Stock'];
   const si = Math.floor(Math.random() * 3);
   const img = isMonitor
-    ? `https://via.placeholder.com/160x120/1a1a1a/e00000?text=Monitor+${i + 1}`
+    ? `https://placehold.co/160x120/1a1a1a/e00000?text=Monitor+${i + 1}`
     : isLaptop
-      ? `https://via.placeholder.com/160x130/1a1a1a/e00000?text=Laptop+${i + 1}`
-      : `https://via.placeholder.com/160x130/1a1a1a/e00000?text=PC+${i + 1}`;
+      ? `https://placehold.co/160x130/1a1a1a/e00000?text=Laptop+${i + 1}`
+      : `https://placehold.co/160x130/1a1a1a/e00000?text=PC+${i + 1}`;
 
   return {
     img,
@@ -52,7 +52,7 @@ function renderProductGrid(id, count = 6, isLaptop = false, isMonitor = false) {
     html += `
       <div class="product-card">
         <span class="stock-badge ${stocks[p.si]}">${stockLabels[p.si]}</span>
-        <img src="${p.img}" alt="Product" data-fallback-src="https://via.placeholder.com/160x130/f5f5f5/cccccc?text=PC">
+        <img src="${p.img}" alt="Product" data-fallback-src="https://placehold.co/160x130/f5f5f5/cccccc?text=PC">
         <div class="stars">${starHtml(p.stars)} <span>(${p.reviews})</span></div>
         <div class="product-name">${p.name}</div>
         <div class="product-old">${p.old}</div>
@@ -75,7 +75,7 @@ function renderBuildsGrid() {
     html += `
       <div class="build-card">
         <span class="build-label ${buildClasses[i]}">${name}</span>
-        <img src="https://via.placeholder.com/140x110/111111/e00000?text=${encodeURIComponent(name)}" alt="${name}" data-hide-on-error="true">
+        <img src="https://placehold.co/140x110/111111/e00000?text=${encodeURIComponent(name)}" alt="${name}" data-hide-on-error="true">
         <div class="stars">${starHtml(4)} <span>(${i + 2})</span></div>
         <div class="product-name" style="color:#bbb;">EX DISPLAY : MSI Pro 16 Flex-135AU 15.6 MULTITOUCH All-In-On...</div>
         <div class="product-old" style="color:#555;">$499.00</div>
@@ -102,7 +102,7 @@ function renderInsta() {
     html1 += `
       <div class="insta-card-wrap">
         <div class="insta-card">
-          <img class="insta-img" src="https://via.placeholder.com/200x200/${colors[i]}/ffffff?text=📸" data-fallback-src="https://via.placeholder.com/200x200/222/fff?text=📸">
+          <img class="insta-img" src="https://placehold.co/200x200/${colors[i]}/ffffff?text=📸" data-fallback-src="https://placehold.co/200x200/222/fff?text=📸">
           <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
         </div>
         <div class="insta-caption">${captions[i]}</div>
@@ -116,7 +116,7 @@ function renderInsta() {
     html2 += `
       <div class="insta-card-wrap">
         <div class="insta-card">
-          <img class="insta-img" src="https://via.placeholder.com/200x200/${colors2[i]}/ffffff?text=📸" data-fallback-src="https://via.placeholder.com/200x200/222/fff?text=📸">
+          <img class="insta-img" src="https://placehold.co/200x200/${colors2[i]}/ffffff?text=📸" data-fallback-src="https://placehold.co/200x200/222/fff?text=📸">
           <div class="insta-overlay"><i class="fab fa-instagram"></i></div>
         </div>
         <div class="insta-caption">${captions[i]}</div>
