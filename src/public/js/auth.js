@@ -11,7 +11,6 @@ async function logout() {
         const data = await response.json();
 
         if (data.success) {
-            // Redirect về trang login
             window.location.href = '/auth/login';
         } else {
             alert('Logout failed: ' + data.error);

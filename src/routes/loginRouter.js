@@ -14,7 +14,7 @@ router.post('/login-submit', loginController.loginPost.bind(loginController));
 router.post('/refresh-token', loginController.refreshTokenPost.bind(loginController));
 
 // Routes cho user đã đăng nhập
-router.post('/logout', authMiddleware, loginController.logout.bind(loginController));
+router.post('/logout', authMiddleware.authMiddleware, loginController.logout.bind(loginController));
 
 module.exports = router;
 

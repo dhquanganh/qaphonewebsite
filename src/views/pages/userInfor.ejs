@@ -1,0 +1,308 @@
+<link rel="stylesheet" href="/css/userInfor.css">
+
+<body>
+
+    <div class="page-wrapper">
+        <div class="page-head">
+            <h1>Tài Khoản Của Tôi</h1>
+            <p>Quản lý thông tin cá nhân và bảo mật tài khoản</p>
+        </div>
+
+        <div class="layout">
+
+            <!-- ── SIDEBAR MENU ── -->
+            <div class="sidebar-menu">
+                <div class="sidebar-profile">
+                    <div class="avatar-wrap">
+                        <div class="avatar-circle" id="avatar-letter"><%- user.username.charAt(0).toUpperCase() %></div>
+                        <div class="avatar-edit" id="avatar-edit-btn" title="Đổi ảnh">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="profile-name" id="sidebar-name"><%- user.username %></div>
+                    <div class="profile-email" id="sidebar-email"><%- user.email %></div>
+                    <% if (user.isActive) { %>
+                        <div class="profile-badge"><i class="fas fa-circle" style="font-size:7px;"></i> Đang hoạt động
+                        </div>
+                        <% } else { %>
+                            <div class="profile-badge" style="background:var(--red);color:white;"><i
+                                    class="fas fa-times"></i> Bị khóa</div>
+                            <% } %>
+                </div>
+                <nav class="menu-list">
+                    <div class="menu-item active" data-tab="info">
+                        <i class="fas fa-user"></i> Thông Tin Cá Nhân
+                    </div>
+                    <div class="menu-item" data-tab="password">
+                        <i class="fas fa-lock"></i> Đổi Mật Khẩu
+                    </div>
+                    <div class="menu-item" data-tab="address">
+                        <i class="fas fa-map-marker-alt"></i> Địa Chỉ
+                    </div>
+                    <div class="menu-item" data-tab="orders">
+                        <i class="fas fa-box"></i> Đơn Hàng Của Tôi
+                    </div>
+                    <div class="menu-divider"></div>
+
+                </nav>
+            </div>
+
+            <!-- ── MAIN CONTENT ── -->
+            <div class="card">
+                <!-- TABS -->
+                <div class="tab-group">
+                    <button class="tab-btn active" data-tab="info">
+                        <i class="fas fa-user"></i> Thông Tin
+                    </button>
+                    <button class="tab-btn" data-tab="password">
+                        <i class="fas fa-lock"></i> Mật Khẩu
+                    </button>
+                    <button class="tab-btn" data-tab="address">
+                        <i class="fas fa-map-marker-alt"></i> Địa Chỉ
+                    </button>
+                    <button class="tab-btn" data-tab="orders">
+                        <i class="fas fa-box"></i> Đơn Hàng
+                    </button>
+                </div>
+
+                <!-- ═══ TAB: THÔNG TIN ═══ -->
+                <div class="tab-panel active" id="panel-info">
+                    <div class="card-header" style="padding-top:24px;">
+                        <div class="card-title">
+                            <div class="card-title-icon"><i class="fas fa-user-edit"></i></div>
+                            Thông Tin Cá Nhân
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="/user/update/<%= user._id %>?_method=PUT" method="POST" id="info-form">
+                            <div class="form-section">
+                                <div class="form-section-title">Thông tin cơ bản</div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Username <span class="req">*</span></label>
+                                        <div class="input-wrap">
+                                            <input class="form-control" type="text" id="lastName"
+                                                value="<%= user.username %>" placeholder="Username" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Họ Tên<span class="req">*</span></label>
+                                        <div class="input-wrap">
+                                            <input class="form-control" type="text" id="firstName"
+                                                value="<%= user.fullName %>" placeholder="Họ tên của bạn"
+                                                name="fullName">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row col-1">
+                                    <div class="form-group">
+                                        <label class="form-label">Email <span class="req">*</span></label>
+                                        <div class="input-wrap">
+                                            <input class="form-control" type="email" id="email"
+                                                value="<%= user.email %>" placeholder="email@example.com" readonly>
+                                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                        <div class="form-error" id="email-error">Email không hợp lệ.</div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Số Điện Thoại</label>
+                                        <div class="phone-wrap">
+                                            <div class="phone-prefix">🇻🇳 +84</div>
+                                            <input class="form-control" type="tel" id="phone" value="<%= user.phone %>"
+                                                placeholder="9xx xxx xxx" name="phone">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                    </div>
+                    <div class="form-footer">
+                        <button class="btn btn-ghost" id="reset-info">Đặt Lại</button>
+                        <button data-userId="<%= user._id %>" type="button" class="btn btn-primary" id="save-info">
+                            <i class="fas fa-save"></i> Lưu Thay Đổi
+                        </button>
+                    </div>
+                    </form>
+                </div>
+
+                <!-- ═══ TAB: MẬT KHẨU ═══ -->
+                <div class="tab-panel" id="panel-password">
+                    <div class="card-header" style="padding-top:24px;">
+                        <div class="card-title">
+                            <div class="card-title-icon"><i class="fas fa-shield-alt"></i></div>
+                            Đổi Mật Khẩu
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-section">
+                            <div class="form-section-title">Bảo mật tài khoản</div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Mật Khẩu Hiện Tại <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <input class="form-control" type="password" id="current-pw"
+                                            placeholder="Nhập mật khẩu hiện tại">
+                                        <span class="input-icon clickable toggle-pw" data-target="current-pw">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-error" id="current-pw-error">Mật khẩu hiện tại không đúng.</div>
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Mật Khẩu Mới <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <input class="form-control" type="password" id="new-pw"
+                                            placeholder="Tối thiểu 8 ký tự">
+                                        <span class="input-icon clickable toggle-pw" data-target="new-pw">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    <div class="pw-strength" id="pw-strength" style="display:none;">
+                                        <div class="pw-bars">
+                                            <div class="pw-bar" id="bar1"></div>
+                                            <div class="pw-bar" id="bar2"></div>
+                                            <div class="pw-bar" id="bar3"></div>
+                                            <div class="pw-bar" id="bar4"></div>
+                                        </div>
+                                        <span class="pw-label" id="pw-label"></span>
+                                    </div>
+                                    <div class="form-error" id="new-pw-error">Mật khẩu tối thiểu 8 ký tự.</div>
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Xác Nhận Mật Khẩu <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <input class="form-control" type="password" id="confirm-pw"
+                                            placeholder="Nhập lại mật khẩu mới">
+                                        <span class="input-icon clickable toggle-pw" data-target="confirm-pw">
+                                            <i class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                    <div class="form-error" id="confirm-pw-error">Mật khẩu xác nhận không khớp.</div>
+                                </div>
+                            </div>
+                            <div
+                                style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;margin-top:8px;">
+                                <i class="fas fa-info-circle"
+                                    style="color:var(--blue);margin-top:1px;flex-shrink:0;"></i>
+                                <div style="font-size:12.5px;color:#1e40af;line-height:1.6;">
+                                    Mật khẩu nên có ít nhất <strong>8 ký tự</strong>, bao gồm chữ hoa, chữ thường, số và
+                                    ký tự đặc biệt để bảo mật tốt hơn.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <button class="btn btn-ghost">Huỷ</button>
+                        <button class="btn btn-primary" id="save-password">
+                            <i class="fas fa-lock"></i> Cập Nhật Mật Khẩu
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ═══ TAB: ĐỊA CHỈ ═══ -->
+                <div class="tab-panel" id="panel-address">
+                    <div class="card-header" style="padding-top:24px;">
+                        <div class="card-title">
+                            <div class="card-title-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            Địa Chỉ Giao Hàng
+                        </div>
+                        <button class="btn btn-primary btn-sm" id="add-addr-btn">
+                            <i class="fas fa-plus"></i> Thêm Địa Chỉ
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="address-list" id="address-list"></div>
+
+                        <!-- Add address form (hidden) -->
+                        <div id="addr-form"
+                            style="display:none;border:1.5px dashed var(--border);border-radius:10px;padding:20px;margin-top:4px;">
+                            <div class="form-section-title" style="margin-bottom:14px;">Địa chỉ mới</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Họ Tên Người Nhận</label>
+                                    <input id="addr-name" name="name" class="form-control" type="text"
+                                        placeholder="Nguyễn Văn A">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Số Điện Thoại</label>
+                                    <input id="addr-phone" name="phone" class="form-control" type="tel"
+                                        placeholder="09xx xxx xxx">
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Thành Phố</label>
+                                    <input id="addr-city" name="city" class="form-control" type="text"
+                                        placeholder="Thành phố">
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Địa Chỉ Cụ Thể</label>
+                                    <input id="addr-detail" name="address" class="form-control" type="text"
+                                        placeholder="Số nhà, tên đường...">
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:4px;">
+                                <button class="btn btn-primary btn-sm" id="save-addr-btn"><i class="fas fa-check"></i>
+                                    Lưu Địa Chỉ</button>
+                                <button class="btn btn-ghost btn-sm" id="cancel-addr-btn">Huỷ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ TAB: ĐƠN HÀNG ═══ -->
+                <div class="tab-panel" id="panel-orders">
+                    <div class="card-header" style="padding-top:24px;">
+                        <div class="card-title">
+                            <div class="card-title-icon"><i class="fas fa-box-open"></i></div>
+                            Đơn Hàng Của Tôi
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <table style="width:100%;border-collapse:collapse;">
+                            <thead>
+                                <tr style="background:#f8fafc;border-bottom:1px solid var(--border);">
+                                    <th
+                                        style="padding:12px 20px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">
+                                        Mã Đơn</th>
+                                    <th
+                                        style="padding:12px 16px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">
+                                        Sản Phẩm</th>
+                                    <th
+                                        style="padding:12px 16px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">
+                                        Tổng Tiền</th>
+                                    <th
+                                        style="padding:12px 16px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">
+                                        Trạng Thái</th>
+                                    <th
+                                        style="padding:12px 16px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">
+                                        Ngày Đặt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div><!-- /card -->
+        </div><!-- /layout -->
+    </div><!-- /wrapper -->
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <i class="toast-icon fas fa-check-circle"></i>
+        <span class="toast-msg" id="toast-msg">Lưu thành công!</span>
+    </div>
+    <script src="/js/userInfor.js"></script>
+</body>
+
+</html>

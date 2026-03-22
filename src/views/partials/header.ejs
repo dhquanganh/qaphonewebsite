@@ -24,7 +24,7 @@
       <% if (user) { %>
         <!-- User đã đăng nhập -->
         <div class="user-menu">
-          <span><i class="fas fa-user"></i>
+          <span><a href="/user/infor/<%= user._id %>"><i class="fas fa-user"></i></a>
             Xin Chào <%= user.username %>!
           </span>
           <button id="logout-btn"

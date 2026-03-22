@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 const expressLayouts = require('express-ejs-layouts');
 const cookieParser = require('cookie-parser');
-
+var methodOverride = require('method-override')
 const logger = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
 const setUserMiddleware = require('./middleware/setUserMiddleware');
@@ -22,6 +22,7 @@ app.set('layout', 'layouts/main');
 
 // Global middlewares
 app.use(helmet());
+app.use(methodOverride('_method'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

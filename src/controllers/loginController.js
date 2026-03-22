@@ -28,7 +28,7 @@ class LoginController {
       const hashedPassword = await bcrypt.hash(password, 9);
       const newUser = new userModel({ username, email, passwordHash: hashedPassword });
       await newUser.save();
-      res.redirect('/');
+      res.redirect('/auth/login');
     } catch (error) {
       next(error);
     }

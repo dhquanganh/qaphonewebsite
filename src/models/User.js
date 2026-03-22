@@ -5,11 +5,11 @@ const userSchema = new mongoose.Schema(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
-    fullName: { type: String },
-    phone: { type: String },
+    fullName: { type: String, default: 'Người Dùng Chưa Đặt Tên' },
+    phone: { type: String, default: 'Chưa Cập Nhật' },
     role: { type: String, enum: ["customer", "admin"], default: "customer" },
     isActive: { type: Boolean, default: true },
-    refreshTokens: [{ type: String }], // Lưu danh sách refresh tokens
+    refreshTokens: [{ type: String }],
 
     addresses: [
       {

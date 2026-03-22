@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAPhone Admin</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon"><i class="fas fa-mobile-alt"></i></div>
+            <span class="logo-name">Phone<span>Shop</span></span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-group-label">Tổng quan</div>
+            <div class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </div>
+
+            <div class="nav-group-label">Sản Phẩm</div>
+            <div class="nav-item" data-page="products">
+                <i class="fas fa-mobile"></i> Quản Lý Sản Phẩm
+                <span class="nav-badge green">148</span>
+            </div>
+            <div class="nav-item" data-page="categories">
+                <i class="fas fa-tags"></i> Quản Lý Danh Mục
+            </div>
+
+            <div class="nav-group-label">Giao Dịch</div>
+            <div class="nav-item" data-page="orders">
+                <i class="fas fa-box"></i> Quản Lý Đơn Hàng
+                <span class="nav-badge">12</span>
+            </div>
+            <div class="nav-item" data-page="coupons">
+                <i class="fas fa-ticket-alt"></i> Quản Lý Coupon
+            </div>
+
+            <div class="nav-group-label">Người Dùng</div>
+            <div class="nav-item" data-page="users">
+                <i class="fas fa-users"></i> Quản Lý Người Dùng
+            </div>
+
+            <div class="nav-group-label">Báo Cáo</div>
+            <div class="nav-item" data-page="revenue">
+                <i class="fas fa-chart-line"></i> Thống Kê Doanh Thu
+            </div>
+
+            <div class="nav-group-label">Tài Khoản</div>
+            <div class="nav-item" data-page="profile">
+                <i class="fas fa-user-shield"></i> Hồ Sơ Cá Nhân
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-info">
+                <div class="admin-avatar">AD</div>
+                <div>
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Super Admin</div>
+                </div>
+                <button class="logout-btn" id="logout-btn" title="Đăng xuất">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <button class="icon-btn hamburger-btn" id="hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-title" id="topbar-title">Dashboard <span>/ Tổng quan</span></div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            <div class="topbar-actions">
+                <div class="icon-btn" id="notif-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-dot"></span>
+                </div>
+                <div class="icon-btn">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- ═══ DASHBOARD ═══ -->
+            <div class="page active" id="page-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
+                            <span class="stat-badge badge-up">↑ 12.5%</span>
+                        </div>
+                        <div class="stat-val">1,284</div>
+                        <div class="stat-label">Tổng Đơn Hàng</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div>
+                            <span class="stat-badge badge-up">↑ 8.2%</span>
+                        </div>
+                        <div class="stat-val">₫482M</div>
+                        <div class="stat-label">Doanh Thu Tháng</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon yellow"><i class="fas fa-users"></i></div>
+                            <span class="stat-badge badge-up">↑ 5.1%</span>
+                        </div>
+                        <div class="stat-val">3,912</div>
+                        <div class="stat-label">Khách Hàng</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon purple"><i class="fas fa-mobile-alt"></i></div>
+                            <span class="stat-badge badge-down">↓ 2.3%</span>
+                        </div>
+                        <div class="stat-val">148</div>
+                        <div class="stat-label">Sản Phẩm Đang Bán</div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <!-- Revenue Chart -->
+                    <div class="chart-box">
+                        <div class="chart-hd">
+                            <div class="chart-title">Doanh Thu 6 Tháng</div>
+                            <div class="btn btn-ghost btn-sm">Xuất Excel <i class="fas fa-download"></i></div>
+                        </div>
+                        <div class="bar-chart" id="revenue-chart"></div>
+                    </div>
+
+                    <!-- Category Donut -->
+                    <div class="chart-box">
+                        <div class="chart-hd">
+                            <div class="chart-title">Danh Mục Bán Chạy</div>
+                        </div>
+                        <div class="donut-wrap">
+                            <svg class="donut-svg" width="110" height="110" viewBox="0 0 110 110">
+                                <circle cx="55" cy="55" r="40" fill="none" stroke="#272d3d" stroke-width="18" />
+                                <circle cx="55" cy="55" r="40" fill="none" stroke="#4f7fff" stroke-width="18"
+                                    stroke-dasharray="100 151" stroke-dashoffset="0" stroke-linecap="round" />
+                                <circle cx="55" cy="55" r="40" fill="none" stroke="#a855f7" stroke-width="18"
+                                    stroke-dasharray="55 196" stroke-dashoffset="-100" stroke-linecap="round" />
+                                <circle cx="55" cy="55" r="40" fill="none" stroke="#22c55e" stroke-width="18"
+                                    stroke-dasharray="30 221" stroke-dashoffset="-155" stroke-linecap="round" />
+                                <circle cx="55" cy="55" r="40" fill="none" stroke="#f59e0b" stroke-width="18"
+                                    stroke-dasharray="21 230" stroke-dashoffset="-185" stroke-linecap="round" />
+                                <text x="55" y="60" text-anchor="middle" fill="#e2e8f0" font-size="13"
+                                    font-weight="700">39%</text>
+                            </svg>
+                            <div class="donut-legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#4f7fff"></div><span
+                                        class="legend-label">iPhone</span><span class="legend-val">39%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#a855f7"></div><span
+                                        class="legend-label">Samsung</span><span class="legend-val">22%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#22c55e"></div><span
+                                        class="legend-label">Xiaomi</span><span class="legend-val">12%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#f59e0b"></div><span
+                                        class="legend-label">Oppo</span><span class="legend-val">8%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot" style="background:#272d3d"></div><span
+                                        class="legend-label">Khác</span><span class="legend-val">19%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="section-hd">
+                    <div class="section-title">Đơn Hàng Gần Đây <span>12 đơn chờ xử lý</span></div>
+                    <button class="btn btn-ghost btn-sm" data-page="orders">Xem tất cả →</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã Đơn</th>
+                                <th>Khách Hàng</th>
+                                <th>Sản Phẩm</th>
+                                <th>Tổng Tiền</th>
+                                <th>Trạng Thái</th>
+                                <th>Ngày</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboard-orders"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ PRODUCTS ═══ -->
+            <div class="page" id="page-products">
+                <div class="section-hd">
+                    <div class="section-title">Quản Lý Sản Phẩm <span>148 sản phẩm</span></div>
+                    <button class="btn btn-primary" id="add-product-btn"><i class="fas fa-plus"></i> Thêm Sản
+                        Phẩm</button>
+                </div>
+                <div class="table-wrap">
+                    <div class="table-filters">
+                        <input class="filter-input" type="text" placeholder="🔍 Tìm tên sản phẩm..."
+                            style="flex:1;min-width:160px;">
+                        <select class="filter-input">
+                            <option>Tất cả danh mục</option>
+                            <option>iPhone</option>
+                            <option>Samsung</option>
+                            <option>Xiaomi</option>
+                            <option>Oppo</option>
+                        </select>
+                        <select class="filter-input">
+                            <option>Tất cả trạng thái</option>
+                            <option>Đang bán</option>
+                            <option>Hết hàng</option>
+                            <option>Ẩn</option>
+                        </select>
+                        <button class="btn btn-ghost btn-sm"><i class="fas fa-filter"></i> Lọc</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sản Phẩm</th>
+                                <th>Danh Mục</th>
+                                <th>Giá</th>
+                                <th>Giá KM</th>
+                                <th>Tồn Kho</th>
+                                <th>Đánh Giá</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table"></tbody>
+                    </table>
+                    <div class="pagination">
+                        <div class="pagination-info">Hiển thị 1–10 / 148 sản phẩm</div>
+                        <div class="pagination-btns">
+                            <div class="pg-btn"><i class="fas fa-chevron-left"></i></div>
+                            <div class="pg-btn active">1</div>
+                            <div class="pg-btn">2</div>
+                            <div class="pg-btn">3</div>
+                            <div class="pg-btn">…</div>
+                            <div class="pg-btn">15</div>
+                            <div class="pg-btn"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ ORDERS ═══ -->
+            <div class="page" id="page-orders">
+                <div class="section-hd">
+                    <div class="section-title">Quản Lý Đơn Hàng <span>1,284 đơn</span></div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Xuất</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <div class="table-filters">
+                        <input class="filter-input" type="text" placeholder="🔍 Tìm mã đơn / tên KH...">
+                        <select class="filter-input">
+                            <option>Tất cả trạng thái</option>
+                            <option>Chờ xử lý</option>
+                            <option>Đang giao</option>
+                            <option>Hoàn thành</option>
+                            <option>Huỷ</option>
+                        </select>
+                        <input class="filter-input" type="date">
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã Đơn</th>
+                                <th>Khách Hàng</th>
+                                <th>Sản Phẩm</th>
+                                <th>Tổng Tiền</th>
+                                <th>Thanh Toán</th>
+                                <th>Trạng Thái</th>
+                                <th>Ngày Đặt</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table"></tbody>
+                    </table>
+                    <div class="pagination">
+                        <div class="pagination-info">Hiển thị 1–10 / 1,284 đơn hàng</div>
+                        <div class="pagination-btns">
+                            <div class="pg-btn"><i class="fas fa-chevron-left"></i></div>
+                            <div class="pg-btn active">1</div>
+                            <div class="pg-btn">2</div>
+                            <div class="pg-btn">3</div>
+                            <div class="pg-btn"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ COUPONS ═══ -->
+            <div class="page" id="page-coupons">
+                <div class="section-hd">
+                    <div class="section-title">Quản Lý Coupon <span>8 mã đang hoạt động</span></div>
+                    <button class="btn btn-primary" id="add-coupon-btn"><i class="fas fa-plus"></i> Tạo Mã Giảm
+                        Giá</button>
+                </div>
+                <div class="coupon-grid" id="coupon-grid"></div>
+            </div>
+
+            <!-- ═══ USERS ═══ -->
+            <div class="page" id="page-users">
+                <div class="section-hd">
+                    <div class="section-title">Quản Lý Người Dùng <span>3,912 tài khoản</span></div>
+                    <button class="btn btn-ghost btn-sm"><i class="fas fa-download"></i> Xuất danh sách</button>
+                </div>
+                <div class="table-wrap">
+                    <div class="table-filters">
+                        <input class="filter-input" type="text" placeholder="🔍 Tìm tên / email...">
+                        <select class="filter-input">
+                            <option>Tất cả vai trò</option>
+                            <option>Khách hàng</option>
+                            <option>Admin</option>
+                        </select>
+                        <select class="filter-input">
+                            <option>Tất cả trạng thái</option>
+                            <option>Hoạt động</option>
+                            <option>Bị khoá</option>
+                        </select>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Người Dùng</th>
+                                <th>Email</th>
+                                <th>SĐT</th>
+                                <th>Vai Trò</th>
+                                <th>Đơn Hàng</th>
+                                <th>Trạng Thái</th>
+                                <th>Ngày Tạo</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table"></tbody>
+                    </table>
+                    <div class="pagination">
+                        <div class="pagination-info">Hiển thị 1–10 / 3,912 người dùng</div>
+                        <div class="pagination-btns">
+                            <div class="pg-btn"><i class="fas fa-chevron-left"></i></div>
+                            <div class="pg-btn active">1</div>
+                            <div class="pg-btn">2</div>
+                            <div class="pg-btn">3</div>
+                            <div class="pg-btn"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ REVENUE ═══ -->
+            <div class="page" id="page-revenue">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon green"><i class="fas fa-wallet"></i></div><span
+                                class="stat-badge badge-up">↑ 18%</span>
+                        </div>
+                        <div class="stat-val">₫2.4B</div>
+                        <div class="stat-label">Doanh Thu Năm</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon blue"><i class="fas fa-shopping-cart"></i></div><span
+                                class="stat-badge badge-up">↑ 8%</span>
+                        </div>
+                        <div class="stat-val">15,240</div>
+                        <div class="stat-label">Tổng Giao Dịch</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon yellow"><i class="fas fa-receipt"></i></div><span
+                                class="stat-badge badge-up">↑ 3%</span>
+                        </div>
+                        <div class="stat-val">₫15.8M</div>
+                        <div class="stat-label">Giá Trị Đơn TB</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon purple"><i class="fas fa-percent"></i></div><span
+                                class="stat-badge badge-down">↓ 1.2%</span>
+                        </div>
+                        <div class="stat-val">68.4%</div>
+                        <div class="stat-label">Tỷ Lệ Chuyển Đổi</div>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-hd">
+                        <div class="chart-title">Doanh Thu Theo Tháng (2024)</div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-ghost btn-sm">Năm 2023</button>
+                            <button class="btn btn-primary btn-sm">Năm 2024</button>
+                        </div>
+                    </div>
+                    <div class="bar-chart" id="full-revenue-chart" style="height:220px;"></div>
+                </div>
+            </div>
+
+            <!-- ═══ CATEGORIES ═══ -->
+            <div class="page" id="page-categories">
+                <div class="section-hd">
+                    <div class="section-title">Quản Lý Danh Mục</div>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Thêm Danh Mục</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tên Danh Mục</th>
+                                <th>Slug</th>
+                                <th>Danh Mục Cha</th>
+                                <th>Số SP</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-table"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ PROFILE ═══ -->
+            <div class="page" id="page-profile">
+                <div class="section-hd">
+                    <div class="section-title">Hồ Sơ Cá Nhân</div>
+                </div>
+                <div class="grid-2" style="align-items:start;">
+                    <div class="form-card">
+                        <div
+                            style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);">
+                            <div
+                                style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#4f7fff,#a855f7);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;">
+                                AD</div>
+                            <div>
+                                <div style="font-size:18px;font-weight:700;">Admin</div>
+                                <div style="font-size:13px;color:var(--muted);">Super Administrator</div>
+                                <div class="chip chip-green" style="margin-top:5px;">Đang hoạt động</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label class="form-label">Họ Tên</label><input class="form-control"
+                                    value="Nguyễn Văn Admin"></div>
+                            <div class="form-group"><label class="form-label">Số Điện Thoại</label><input
+                                    class="form-control" value="0909 123 456"></div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group"><label class="form-label">Email</label><input class="form-control"
+                                    value="admin@phoneshop.vn"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="save-profile-btn"><i class="fas fa-save"></i> Lưu Thay
+                                Đổi</button>
+                        </div>
+                    </div>
+                    <div class="form-card">
+                        <div style="font-size:15px;font-weight:700;margin-bottom:20px;">Đổi Mật Khẩu</div>
+                        <div class="form-row full">
+                            <div class="form-group"><label class="form-label">Mật Khẩu Hiện Tại</label><input
+                                    class="form-control" type="password" placeholder="••••••••"></div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group"><label class="form-label">Mật Khẩu Mới</label><input
+                                    class="form-control" type="password" placeholder="••••••••"></div>
+                        </div>
+                        <div class="form-row full">
+                            <div class="form-group"><label class="form-label">Xác Nhận Mật Khẩu</label><input
+                                    class="form-control" type="password" placeholder="••••••••"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary"><i class="fas fa-lock"></i> Đổi Mật Khẩu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main -->
+
+    <!-- MODAL: Add Product -->
+    <div class="modal-overlay" id="modal-product">
+        <div class="modal">
+            <div class="modal-hd">
+                <div class="modal-title"><i class="fas fa-plus-circle"
+                        style="color:var(--accent);margin-right:8px;"></i>Thêm Sản Phẩm Mới</div>
+                <button class="modal-close" data-close="modal-product"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Tên Sản Phẩm</label><input class="form-control"
+                        placeholder="VD: iPhone 15 Pro Max 256GB"></div>
+                <div class="form-group"><label class="form-label">Thương Hiệu</label><input class="form-control"
+                        placeholder="Apple, Samsung..."></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Giá Gốc (₫)</label><input class="form-control"
+                        type="number" placeholder="0"></div>
+                <div class="form-group"><label class="form-label">Giá Khuyến Mãi (₫)</label><input class="form-control"
+                        type="number" placeholder="0"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Danh Mục</label>
+                    <select class="form-control">
+                        <option>iPhone</option>
+                        <option>Samsung</option>
+                        <option>Xiaomi</option>
+                        <option>Oppo</option>
+                    </select>
+                </div>
+                <div class="form-group"><label class="form-label">Tồn Kho</label><input class="form-control"
+                        type="number" placeholder="0"></div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group"><label class="form-label">Mô Tả</label><textarea class="form-control" rows="3"
+                        placeholder="Mô tả sản phẩm..."></textarea></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" id="submit-product"><i class="fas fa-check"></i> Thêm Sản Phẩm</button>
+                <button class="btn btn-ghost" data-close="modal-product">Huỷ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Add Coupon -->
+    <div class="modal-overlay" id="modal-coupon">
+        <div class="modal">
+            <div class="modal-hd">
+                <div class="modal-title"><i class="fas fa-ticket-alt"
+                        style="color:var(--yellow);margin-right:8px;"></i>Tạo Mã Giảm Giá</div>
+                <button class="modal-close" data-close="modal-coupon"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Mã Coupon</label><input class="form-control"
+                        placeholder="VD: SALE50"></div>
+                <div class="form-group"><label class="form-label">Loại Giảm</label>
+                    <select class="form-control">
+                        <option>Phần trăm (%)</option>
+                        <option>Số tiền cố định (₫)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Giá Trị Giảm</label><input class="form-control"
+                        type="number" placeholder="0"></div>
+                <div class="form-group"><label class="form-label">Đơn Hàng Tối Thiểu (₫)</label><input
+                        class="form-control" type="number" placeholder="0"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Số Lần Dùng Tối Đa</label><input class="form-control"
+                        type="number" placeholder="100"></div>
+                <div class="form-group"><label class="form-label">Hết Hạn</label><input class="form-control"
+                        type="date"></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" id="submit-coupon"><i class="fas fa-check"></i> Tạo Mã</button>
+                <button class="btn btn-ghost" data-close="modal-coupon">Huỷ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="notif-toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span class="notif-msg" id="toast-msg">Thao tác thành công!</span>
+    </div>
+</body>
+<script src="/js/admin.js"></script>
+
+</html>

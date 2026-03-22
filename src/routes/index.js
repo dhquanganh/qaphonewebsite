@@ -1,13 +1,14 @@
 const homeRouter = require('./homeRouter');
 const userRoutes = require('./userRoutes');
 const loginRouter = require('./loginRouter');
+const adminRouter = require('./adminRouter');
+
 
 function routes(app) {
-    // Pages (EJS)
     app.use('/auth', loginRouter);
+    app.use('/admin', adminRouter);
+    app.use('/user', userRoutes);
     app.use('/', homeRouter);
-
-    // API
 }
 
 module.exports = routes;
