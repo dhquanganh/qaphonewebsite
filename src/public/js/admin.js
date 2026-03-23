@@ -154,28 +154,107 @@ document.addEventListener('DOMContentLoaded', async () => {
   </div>`).join('');
   }
 
-  function renderUsers() {
-    const tb = document.getElementById('users-table');
-    tb.innerHTML = allUsers.map(u => `
-  <tr>
-    <td><div class="user-row-extra">
-      <div class="user-avatar-sm">${u.username}</div>
-      <span style="font-weight:600;">${u.fullName}</span>
-    </div></td>
-    <td style="color:var(--muted);font-size:12.5px;">${u.email}</td>
-    <td style="color:var(--muted);">${u.phone}</td>
-    <td>${statusChip(u.role)}</td>
-    <td style="font-weight:600;">${u.orders === undefined ? 0 : u.orders}</td>
-    <td>${statusChip(u.isActive === true ? 'Tốt' : 'Bị Khóa')}</td>
-    <td style="color:var(--muted);font-size:12px;">${u.createdAt}</td>
-    <td><div style="display:flex;gap:5px;">
-      <button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-eye"></i></button>
-      <button class="btn btn-danger btn-sm btn-icon" title="${u.isActive === false ? 'Mở khoá' : 'Khoá'}">
-        <i class="fas fa-${u.isActive === false ? 'unlock' : 'lock'}"></i>
-      </button>
-    </div></td>
-  </tr>`).join('');
+  let currentPage = 1;
+  const PAGE_SIZE = 10;
+
+  async function loadUsers() {
+
+    const params = new URLSearchParams({
+      page: currentPage,
+      limit: PAGE_SIZE,
+    });
+
+    const { users, pagination } = await fetch(`/admin/api/get-all-users?${params.toString()}`)
+      .then(r => r.json());
+
+    // ── Render rows ──────────────────
+    document.getElementById('users-table').innerHTML = users.length === 0
+      ? `<tr>
+               <td colspan="8" style="text-align:center;padding:32px;color:var(--muted);">
+                   <i class="fas fa-users" style="font-size:24px;display:block;margin-bottom:8px;"></i>
+                   Không tìm thấy người dùng nào
+               </td>
+           </tr>`
+      : users.map(u => `
+            <tr>
+                <td><div class="user-row-extra">
+                    <div class="user-avatar-sm">${(u.username || '?')[0].toUpperCase()}</div>
+                    <span style="font-weight:600;">${u.fullName || '—'}</span>
+                </div></td>
+                <td style="color:var(--muted);font-size:12.5px;">${u.email}</td>
+                <td style="color:var(--muted);">${u.phone || '—'}</td>
+                <td>${statusChip(u.role)}</td>
+                <td style="font-weight:600;">${u.orders ?? 0}</td>
+                <td>${u.isActive ? 'Đang Hoạt Động' : 'Bị Khóa'}</td>
+                <td style="color:var(--muted);font-size:12px;">
+                    ${new Date(u.createdAt).toLocaleDateString('vi-VN')}
+                </td>
+                <td><div style="display:flex;gap:5px;">
+                    <button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-danger btn-sm btn-icon"
+                            title="${u.isActive ? 'Khoá' : 'Mở khoá'}">
+                        <i class="fas fa-${u.isActive ? 'lock' : 'unlock'}"></i>
+                    </button>
+                </div></td>
+            </tr>`).join('');
+
+    // ── Render info ──────────────────
+    const { total, page, limit, totalPages } = pagination;
+    const start = (page - 1) * limit + 1;
+    const end = Math.min(page * limit, total);
+
+    document.querySelector('.pagination-info').textContent =
+      total === 0
+        ? 'Không có người dùng nào'
+        : `Hiển thị ${start}–${end} / ${total} người dùng`;
+
+    // ── Render pagination ─────────────
+    // Chỉ hiện đúng số trang có thật — không thêm không bớt
+    let pgHtml = `
+        <div class="pg-btn prev-btn" style="${page <= 1 ? 'opacity:.4;pointer-events:none' : ''}">
+            <i class="fas fa-chevron-left"></i>
+        </div>`;
+
+    for (let p = 1; p <= totalPages; p++) {
+      pgHtml += `
+        <div class="pg-btn ${p === page ? 'active' : ''}" data-page="${p}">${p}</div>`;
+    }
+
+    pgHtml += `
+        <div class="pg-btn next-btn" style="${page >= totalPages ? 'opacity:.4;pointer-events:none' : ''}">
+            <i class="fas fa-chevron-right"></i>
+        </div>`;
+
+    const pgContainer = document.querySelector('.pagination-btns-user-list');
+    pgContainer.innerHTML = pgHtml;
+
+    // Events
+    pgContainer.querySelector('.prev-btn').addEventListener('click', () => {
+      if (currentPage > 1) { currentPage--; loadUsers(); }
+    });
+    pgContainer.querySelector('.next-btn').addEventListener('click', () => {
+      if (currentPage < totalPages) { currentPage++; loadUsers(); }
+    });
+    pgContainer.querySelectorAll('.pg-btn[data-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentPage = +btn.dataset.page;
+        loadUsers();
+      });
+    });
   }
+
+  // ── Search / Filter ─────────────────
+  let debounce;
+  document.querySelector('input.filter-input').addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => { currentPage = 1; loadUsers(); }, 400);
+  });
+  document.querySelectorAll('select.filter-input').forEach(sel => {
+    sel.addEventListener('change', () => { currentPage = 1; loadUsers(); });
+  });
+
+  // ── Init ────────────────────────────
+  loadUsers();
 
   function renderCategories() {
     const tb = document.getElementById('categories-table');
@@ -292,7 +371,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderProducts();
   renderOrders();
   renderCoupons();
-  renderUsers();
+  // renderUsers();
   renderCategories();
   renderBarChart('revenue-chart', [320, 415, 280, 520, 610, 480], ['T7', 'T8', 'T9', 'T10', 'T11', 'T12']);
   renderBarChart('full-revenue-chart', REV_DATA, MONTHS);

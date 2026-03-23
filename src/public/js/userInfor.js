@@ -169,8 +169,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     setDefaultBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const addrId = btn.id.replace('set-default-', '');
-            fetch(`/user/set-default-address/${userId}/${addrId}`, {
-                method: 'PUT',
+            fetch(`/user/set-default-address/${userId}/${addrId}?_method=PUT`, {
+                method: 'POST',
             }).then(res => res.json()).then(data => {
                 showToast(data.messages, 'success');
                 setTimeout(() => {
@@ -311,26 +311,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 <div class="form-group">
                                     <label class="form-label">Họ Tên Người Nhận</label>
                                     <input id="addr-name-edit" name="name" class="form-control" type="text"
-                                        placeholder="${addr.name}" required>
+                                        value="${addr.name}" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Số Điện Thoại</label>
                                     <input id="addr-phone-edit" name="phone" class="form-control" type="tel"
-                                        placeholder="${addr.phone}" required>
+                                        value="${addr.phone}" required>
                                 </div>
                             </div>
                             <div class="form-row col-1">
                                 <div class="form-group">
                                     <label class="form-label">Thành Phố</label>
                                     <input id="addr-city-edit" name="city" class="form-control" type="text"
-                                        placeholder="${addr.city}" required>
+                                        value="${addr.city}" required>
                                 </div>
                             </div>
                             <div class="form-row col-1">
                                 <div class="form-group">
                                     <label class="form-label">Địa Chỉ Cụ Thể</label>
                                     <input id="addr-detail-edit" name="address" class="form-control" type="text"
-                                        placeholder="${addr.address}" required>
+                                        value="${addr.address}" required>
                                 </div>
                             </div>
                             <div style="display:flex;gap:8px;margin-top:4px;">
@@ -344,8 +344,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('edit-addr-form').style.display = 'none';
             });
             document.getElementById('save-edit-addr-btn').addEventListener('click', () => {
-                fetch(`/user/update-address/${userId}/${addrId}`, {
-                    method: 'PUT',
+                fetch(`/user/update-address/${userId}/${addrId}?_method=PUT`, {
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         name: document.getElementById('addr-name-edit').value,
