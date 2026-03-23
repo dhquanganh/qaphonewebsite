@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             showToast('Có lỗi xảy ra khi thêm địa chỉ.' + err, 'error');
         });
     });
+
     const userId = document.getElementById('save-info').getAttribute('data-userId');
     const getuser = await Promise.all([
         fetch(`/user/api/find-user-by-id/${userId}`).then(r => r.json())
@@ -154,8 +155,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
         <div class="addr-detail">${a.address}<br>${a.city}</div>
         <div class="addr-actions">
-          <button class="btn btn-ghost btn-sm"><i class="fas fa-pen"></i> Sửa</button>
-          ${!a.isDefault ? '<button class="btn btn-ghost btn-sm">Đặt mặc định</button>' : ''}
+          <button data-addr-id="${a._id}" class="btn btn-ghost btn-sm editAddrBtn"><i class="fas fa-pen"></i> Sửa</button>
+          ${!a.isDefault ? '<button id="set-default-' + a._id + '" class="btn btn-ghost btn-sm">Đặt mặc định</button>' : ''}
           ${!a.isDefault ? '<button data-addr-id="' + a._id + '" class="btn btn-danger btn-sm address-item"><i class="fas fa-trash"></i></button>' : ''}
         </div>
       </div>
@@ -164,8 +165,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (user && user.addresses) {
         renderAddresses();
     }
-    const editAddrBtns = document.querySelectorAll('.address-item');
-    editAddrBtns.forEach(btn => {
+    const setDefaultBtns = document.querySelectorAll('[id^="set-default-"]');
+    setDefaultBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const addrId = btn.id.replace('set-default-', '');
+            fetch(`/user/set-default-address/${userId}/${addrId}`, {
+                method: 'PUT',
+            }).then(res => res.json()).then(data => {
+                showToast(data.messages, 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }).catch(err => {
+                showToast('Có lỗi xảy ra khi đặt mặc định.' + err, 'error');
+            });
+        });
+    });
+    const deleteAddrBtns = document.querySelectorAll('.address-item');
+    deleteAddrBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const addrId = btn.getAttribute('data-addr-id');
             fetch(`/user/delete-address/${userId}/${addrId}`, {
@@ -285,17 +302,76 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('add-addr-btn').addEventListener('click', () => {
         document.getElementById('addr-form').style.display = 'block';
     });
+    document.querySelectorAll('.editAddrBtn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const addrId = btn.getAttribute('data-addr-id');
+            const addr = user.addresses.find(a => a._id === addrId);
+            document.getElementById('edit-addr-form').innerHTML = `<div class="form-section-title" style="margin-bottom:14px;">Sửa Địa chỉ mới</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Họ Tên Người Nhận</label>
+                                    <input id="addr-name-edit" name="name" class="form-control" type="text"
+                                        placeholder="${addr.name}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Số Điện Thoại</label>
+                                    <input id="addr-phone-edit" name="phone" class="form-control" type="tel"
+                                        placeholder="${addr.phone}" required>
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Thành Phố</label>
+                                    <input id="addr-city-edit" name="city" class="form-control" type="text"
+                                        placeholder="${addr.city}" required>
+                                </div>
+                            </div>
+                            <div class="form-row col-1">
+                                <div class="form-group">
+                                    <label class="form-label">Địa Chỉ Cụ Thể</label>
+                                    <input id="addr-detail-edit" name="address" class="form-control" type="text"
+                                        placeholder="${addr.address}" required>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;margin-top:4px;">
+                                <button data-addr-to-edit-id="${addr._id}" class="btn btn-primary btn-sm" id="save-edit-addr-btn"><i
+                                        class="fas fa-check"></i>
+                                    Lưu Địa Chỉ</button>
+                                <button class="btn btn-ghost btn-sm" id="cancel-edit-addr-btn">Huỷ</button>
+                            </div>`;
+            document.getElementById('edit-addr-form').style.display = 'block';
+            document.getElementById('cancel-edit-addr-btn').addEventListener('click', () => {
+                document.getElementById('edit-addr-form').style.display = 'none';
+            });
+            document.getElementById('save-edit-addr-btn').addEventListener('click', () => {
+                fetch(`/user/update-address/${userId}/${addrId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('addr-name-edit').value,
+                        phone: document.getElementById('addr-phone-edit').value,
+                        city: document.getElementById('addr-city-edit').value,
+                        address: document.getElementById('addr-detail-edit').value,
+                    }),
+                }).then(res => res.json()).then(data => {
+                    showToast(data.messages, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }).catch(err => {
+                    showToast('Có lỗi xảy ra khi cập nhật địa chỉ.' + err, 'error');
+                });
+                document.getElementById('edit-addr-form').style.display = 'none';
+            });
+        });
+    });
+
     document.getElementById('cancel-addr-btn').addEventListener('click', () => {
         document.getElementById('addr-form').style.display = 'none';
     });
     document.getElementById('save-addr-btn').addEventListener('click', () => {
         document.getElementById('addr-form').style.display = 'none';
         showToast('Địa chỉ đã được thêm!', 'success');
-    });
-
-    // ── LOGOUT ────────────────────────────
-    document.getElementById('logout-menu').addEventListener('click', () => {
-        showToast('Đã đăng xuất khỏi tài khoản.', 'success');
     });
 
     // ── AVATAR ────────────────────────────

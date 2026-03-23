@@ -9,6 +9,8 @@ router.put('/update/:_id', authMiddleware.authMiddleware, userController.updateU
 router.get('/api/find-user-by-id/:_id', authMiddleware.authMiddleware, userController.getUserByIdAPI);
 router.post('/add-address/:_id', authMiddleware.authMiddleware, userController.createAddress);
 router.delete('/delete-address/:_id/:address_id', authMiddleware.authMiddleware, userController.deleteAddress);
+router.put('/set-default-address/:_id/:address_id', authMiddleware.authMiddleware, userController.setAddressDefaultByIdAPI);
+router.put('/update-address/:_id/:address_id', authMiddleware.authMiddleware, userController.updateAddressUserAPI);
 
 module.exports = router;
 
