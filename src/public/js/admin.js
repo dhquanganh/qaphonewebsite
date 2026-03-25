@@ -154,14 +154,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   </div>`).join('');
   }
 
+  // pagination user 
   let currentPage = 1;
   const PAGE_SIZE = 10;
 
   async function loadUsers() {
-
+    const select = document.querySelector('.filter-input-user');
+    let status = select.value;
     const params = new URLSearchParams({
       page: currentPage,
       limit: PAGE_SIZE,
+      status: status,
     });
 
     const { users, pagination } = await fetch(`/admin/api/get-all-users?${params.toString()}`)
@@ -190,12 +193,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${new Date(u.createdAt).toLocaleDateString('vi-VN')}
                 </td>
                 <td><div style="display:flex;gap:5px;">
-                    <button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-eye"></i></button>
-                    <button class="btn btn-danger btn-sm btn-icon"
-                            title="${u.isActive ? 'Khoá' : 'Mở khoá'}">
-                        <i class="fas fa-${u.isActive ? 'lock' : 'unlock'}"></i>
-                    </button>
-                </div></td>
+    <button class="btn btn-ghost btn-sm btn-icon"><i class="fas fa-eye"></i></button>
+    <button class="btn btn-danger btn-sm btn-icon lock-user-btn" data-userId="${u._id}"
+            title="${u.isActive ? 'Khoá' : 'Mở khoá'}">
+        <i class="fas fa-${u.isActive ? 'lock' : 'unlock'}"></i>  <!-- ✅ Bỏ lock-user-btn khỏi <i> -->
+    </button>
+</div></td>
             </tr>`).join('');
 
     // ── Render info ──────────────────
@@ -209,7 +212,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         : `Hiển thị ${start}–${end} / ${total} người dùng`;
 
     // ── Render pagination ─────────────
-    // Chỉ hiện đúng số trang có thật — không thêm không bớt
     let pgHtml = `
         <div class="pg-btn prev-btn" style="${page <= 1 ? 'opacity:.4;pointer-events:none' : ''}">
             <i class="fas fa-chevron-left"></i>
@@ -255,6 +257,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ── Init ────────────────────────────
   loadUsers();
+
+  // end pagination user
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.lock-user-btn');
+    if (!btn) return;
+
+    const userId = btn.getAttribute('data-userId');
+    if (!userId) return;
+
+    fetch(`/admin/api/lock-user/${userId}?_method=PATCH`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          showToast(data.message, 'success');
+          loadUsers();
+        }
+      })
+      .catch(err => {
+        showToast('Đã có lỗi xảy ra', 'error');
+      });
+  });
 
   function renderCategories() {
     const tb = document.getElementById('categories-table');

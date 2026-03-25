@@ -55,6 +55,26 @@ class AdminController {
             next(error);
         }
     }
+
+    async lockUserAPI(req, res, next) {
+        try {
+            const userId = req.body.userId;
+            const getUser = await userModel.findById(userId);
+            if (!getUser) {
+                return res.json({ success: false, message: "Người dùng không tồn tại!" });
+            }
+
+            getUser.isActive = !getUser.isActive;
+            await getUser.save();
+
+            const message = getUser.isActive
+                ? "Mở khóa tài khoản thành công!"
+                : "Khóa tài khoản thành công!";
+            res.json({ success: true, message });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new AdminController();
